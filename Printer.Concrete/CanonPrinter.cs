@@ -2,7 +2,7 @@
 
 namespace Printer.Concrete
 {
-    internal class CanonPrinter : Abstract.Printer
+    public class CanonPrinter : Abstract.Printer
     {
         public CanonPrinter(string name, string model)
         {

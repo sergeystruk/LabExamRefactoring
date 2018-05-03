@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using Logger.Interface;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace PrinterManager
 {
     public class Manager
     {
-        private HashSet<Printer.Abstract.Printer> set;
+        public HashSet<Printer.Abstract.Printer> Set { get; private set; }
         private ILogger logger;
+        public event EventHandler<LoggerEventArgs> PrintAction = delegate (object source, LoggerEventArgs args) { };
 
         public Manager(ILogger logger)
         {
             this.logger = logger;
-            set = new HashSet<Printer.Abstract.Printer>();
+            Set = new HashSet<Printer.Abstract.Printer>();
+            this.logger.Register(this);
         }
 
-        public Manager() { }
+        public Manager() : this(new ConsoleLogger()) { }
 
         public void Add(Printer.Abstract.Printer printer)
         {
-            if(ReferenceEquals(set, null))
+            if(ReferenceEquals(Set, null))
             {
-                set = new HashSet<Printer.Abstract.Printer>();
+                Set = new HashSet<Printer.Abstract.Printer>();
             }
 
             if (ReferenceEquals(printer, null))
@@ -29,12 +33,12 @@ namespace PrinterManager
                 throw new ArgumentNullException(nameof(printer));
             }
 
-            set.Add(printer);
+            Set.Add(printer);
         }
 
         public bool Remove(Printer.Abstract.Printer printer)
         {
-            if(ReferenceEquals(set, null))
+            if(ReferenceEquals(Set, null))
             {
                 return true;
             }
@@ -44,18 +48,36 @@ namespace PrinterManager
                 return true;
             }
 
-            if(set.Contains(printer))
+            if(Set.Contains(printer))
             {
-                set.Remove(printer);
+                Set.Remove(printer);
                 return true;
             }
 
             return false;
         }
 
-        public string Print()
+        public void Print()
         {
-            return null;
+            using (var o = new OpenFileDialog())
+            {
+                o.ShowDialog();
+                using (var f = File.OpenRead(o.FileName))
+                {
+                    foreach (var item in Set)
+                    {
+                        OnPrintAction(this, new LoggerEventArgs($"{item.Name} {item.Model} start printing"));
+                        item.Print(f);
+                        OnPrintAction(this, new LoggerEventArgs($"{item.Name} {item.Model} ended printing"));
+                    }
+                }
+            }
         }
+
+        protected virtual void OnPrintAction(object source, LoggerEventArgs args)
+        {
+            PrintAction(source, args);
+        }
+        
     }
 }

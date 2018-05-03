@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25FBD576-0478-46A6-A8C1-F821C27E1404}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrinterManager</RootNamespace>
-    <AssemblyName>PrinterManager</AssemblyName>
+    <ProjectGuid>{1B44D4EB-8AF8-4A9F-A4D3-C3BBB0B52604}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleTestProject</RootNamespace>
+    <AssemblyName>ConsoleTestProject</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,17 +42,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleLogger.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="LoggerEventArgs.cs" />
-    <Compile Include="LogToFile.cs" />
-    <Compile Include="Manager.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Printer.Abstract\Printer.Abstract.csproj">
       <Project>{a49996d3-f7b6-4389-b2da-0047ea326ced}</Project>
       <Name>Printer.Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Printer.Concrete\Printer.Concrete.csproj">
+      <Project>{39fa25f3-e090-45ff-b8a8-20d4f1fc0389}</Project>
+      <Name>Printer.Concrete</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrinterManager\PrinterManager.csproj">
+      <Project>{25fbd576-0478-46a6-a8c1-f821c27e1404}</Project>
+      <Name>PrinterManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

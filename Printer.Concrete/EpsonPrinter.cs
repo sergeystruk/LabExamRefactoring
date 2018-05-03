@@ -2,7 +2,7 @@
 
 namespace Printer.Concrete
 {
-    class EpsonPrinter : Abstract.Printer
+    public class EpsonPrinter : Abstract.Printer
     {
         public EpsonPrinter(string name, string model)
         {
